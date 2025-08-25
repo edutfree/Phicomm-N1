@@ -11,7 +11,7 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.11.11/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.1.1/192.168.11.11/g' package/base-files/files/bin/config_generate
 
 # Modify hostname
 #sed -i 's/OpenWrt/OpenWrt-2024.10.18/g' package/base-files/files/bin/config_generate
@@ -21,5 +21,6 @@ sed -i 's/192.168.1.1/192.168.11.11/g' package/base-files/files/bin/config_gener
 
 # luci2 Modify default IP and hostname
 
-#sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/luci2/bin/config_generate
-sed -i 's/LEDE/OpenWrt(2025.3.21)/g' package/base-files/luci2/bin/config_generate
+sed -i 's/192.168.1.1/192.168.11.2/g' package/base-files/luci2/bin/config_generate
+#sed -i 's/LEDE/OpenWrt(2025.3.21)/g' package/base-files/luci2/bin/config_generate
+sed -i 's/LEDE/OpenWrt-'"$(date -d "now" +%Y-%m-%d)"'/g' package/base-files/luci2/bin/config_generate
