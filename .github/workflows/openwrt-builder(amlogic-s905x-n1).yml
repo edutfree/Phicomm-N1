@@ -105,5 +105,6 @@ jobs:
         df -hT
         echo "=============================================================================="
         mkdir -p $GITHUB_WORKSPACE/newopt
+        rm -rf /opt
         ln -sf $GITHUB_WORKSPACE/newopt /opt
         df -hT /opt
