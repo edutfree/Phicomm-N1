@@ -109,4 +109,5 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/newopt
         sudo rm -rf /opt
         sudo ln -sf $GITHUB_WORKSPACE/newopt /opt
+        sudo ls /
         df -hT /opt
