@@ -210,10 +210,12 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
+        ls
         rm -rf packages sha256sums version.buildinfo feeds.buildinfo openwrt-amlogic-mesongx-phicomm_n1.manifest
-        sudo rm -rf ${{ env.PACKAGED_OUTPUTPATH }}/openwrt-armsr-armv8-generic-rootfs.tar.*
+        sudo -E rm -rf ${{ env.PACKAGED_OUTPUTPATH }}/openwrt-armsr-armv8-generic-rootfs.tar.*
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
+        pwd
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
