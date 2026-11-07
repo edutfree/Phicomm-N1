@@ -1,15 +1,3 @@
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-#
-# File: .github/workflows/openwrt-bulder.yml
-# Description: Build OpenWrt using GitHub Actions
-#
-# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-# Amlogic Meson family -- Subtarget Amlogic S905x boards (64 bit) -- Phicomm N1
-
 name: OpenWrt Builder(Amlogic S905x N1)
 
 on:
@@ -31,6 +19,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      actions: write
 
     steps:
     - name: "Check Server Performance"
@@ -48,7 +39,7 @@ jobs:
         echo "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
         
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
 
     - name: Initialization environment
       env:
@@ -124,7 +115,7 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        openwrt_kernel: 6.12.y_6.18.y
+        openwrt_kernel: 6.1.y_6.18.y
         openwrt_ip: 192.168.11.2
 
     - name: Check space usage
@@ -144,13 +135,13 @@ jobs:
         pwd
 
     - name: Upload firmware directory
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v4
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: |
-             ${{ env.FIRMWARE }}
-             ${{ env.PACKAGED_OUTPUTPATH }} 
+              ${{ env.FIRMWARE }}
+              ${{ env.PACKAGED_OUTPUTPATH }} 
 
     - name: Generate release tag
       id: tag
@@ -161,7 +152,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v2
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -173,13 +164,15 @@ jobs:
                ${{ env.PACKAGED_OUTPUTPATH }}/*.gz
 
     - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@main
+      uses: Mattraks/delete-workflow-runs@v2
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
         retain_days: 0
         keep_minimum_runs: 4
 
     - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
+      uses: dev-drprasad/delete-older-releases@v0.3.3
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 6
