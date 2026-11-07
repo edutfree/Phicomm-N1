@@ -11,7 +11,6 @@ env:
   CONFIG_FILE: n1.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
@@ -117,7 +116,7 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        openwrt_kernel: 6.1.y_6.18.y
+        openwrt_kernel: 6.12.y_6.18.y
         openwrt_ip: 192.168.11.2
 
     - name: Check space usage
