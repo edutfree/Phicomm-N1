@@ -68,12 +68,6 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
-        
-    #- name: Cache
-      #uses: stupidloud/cachewrtbuild@main
-      #with:
-        #ccache: 'true'
-        #prefix: ${{ github.workspace }}/openwrt
 
     - name: Load custom feeds
       run: |
@@ -124,18 +118,6 @@ jobs:
     - name: Check space usage
       if: (!cancelled())
       run: df -hT
-
-    #- name: Package OpenWrt Firmware
-    #  if: steps.compile.outputs.status == 'success' && !cancelled()
-    #  uses: unifreq/openwrt_packit@master
-    #  env:
-    #    OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/openwrt-amlogic-mesongx-phicomm_n1-rootfs.tar.gz
-    #    KERNEL_VERSION_NAME: 5.15.y_6.6.y
-    #    KERNEL_AUTO_LATEST: true
-    #    PACKAGE_SOC: s905d
-    #    WHOAMI: WIFIMI
-    #    SW_FLOWOFFLOAD: 1
-    #    SFE_FLOW: 0
         
     - name: Package armsr-armv8 as OpenWrt
       uses: ophub/amlogic-s9xxx-openwrt@main
